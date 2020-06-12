@@ -5,10 +5,10 @@ const cors = require("cors")
 
 const app = express()
 
-let porta = 3000
+let port = process.env.PORT || 3000
 
-app.listen(porta,() =>{
-    console.log(`Servidor rodando na porta ${porta}`)
+app.listen(port,() =>{
+    console.log(`Servidor rodando na porta ${port}`)
 })
 
 //CONECT TO MONGODB ATLAS
