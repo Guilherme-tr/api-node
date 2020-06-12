@@ -7,8 +7,8 @@ const app = express()
 
 let port = process.env.PORT || 3000
 
-app.listen(porta,() =>{
-    console.log(`Servidor rodando na porta ${porta}`)
+app.listen(port,() =>{
+    console.log(`Servidor rodando na porta ${port}`)
 })
 
 //CONECT TO MONGODB ATLAS
