@@ -3,6 +3,10 @@ const routes = express.Router()
 const userController = require('./controllers/userController')
 const PersonaController = require('./controllers/personaController')
 
+routes.get('/', (req,res) =>{
+    return res.json({msg:"API FUNCIONANDO"})
+})
+
 //CRUD DE USERS
 routes.post('/user', userController.create)  
 routes.put('/user/:userId', userController.update)  
