@@ -44,7 +44,7 @@ module.exports = {
             console.log(error)
             return res.status(500).json({msg:'Problemas no servidor'})
         }
-    },
+    }, 
 
     //UPDATE ONE USER ON THE LIST
     async update (req,res) {
