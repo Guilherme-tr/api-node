@@ -1,7 +1,7 @@
 const express = require('express')
 const routes = express.Router()
 const userController = require('./controllers/userController')
-const PersonaController = require('./controllers/PersonaController')
+const PersonaController = require('./controllers/personaController')
 
 //CRUD DE USERS
 routes.post('/user', userController.create)  
