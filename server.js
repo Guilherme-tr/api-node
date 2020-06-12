@@ -5,7 +5,7 @@ const cors = require("cors")
 
 const app = express()
 
-let porta = 3000
+let port = process.env.PORT || 3000
 
 app.listen(porta,() =>{
     console.log(`Servidor rodando na porta ${porta}`)
