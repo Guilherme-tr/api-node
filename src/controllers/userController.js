@@ -1,69 +1,89 @@
 const User = require('../models/users')
+const users = require('../models/users')
 module.exports = {
+
+    //SHOW ONE USER IN LIST
     async show(req,res){
         try{
             const {userId} = req.params
-            const users = await User.find({
+            const user = await User.find({
                 _id: userId
             })
-            console.log(users)
-            res.json({users})
+            if(user.length === 0){
+                return res.status(401).json({error:"Usuario nao cadastrado com este id"})
+            }
+            return res.status(200).json({user})
         }catch(error){
             console.log(error)
-            res.json({msg:'Problemas no servidor'})
+            return res.status(500).json({msg:'Problemas no servidor'})
         }
     },
 
+    //SHOW ALL USERS ON THE LIST
     async list(req,res){
         try{
-            const users = await User.find()
-            console.log(users)
-            res.json({users})
+            const user = await User.find()
+            return res.status(200).json({user})
         }catch(error){
             console.log(error)
-            res.json({msg:'Problemas no servidor'})
+            return res.status(500).json({msg:'Problemas no servidor'})
         }
     },
 
+    //ADD ONE USER ON THE LIST
     async create (req,res) {
         try{
-            const {nome, cidade, idade} = req.body
-            const user = await User.create({nome, cidade, idade})
-            res.json({user})
+            const {nome, email, cargo} = req.body
+            const userExist = await User.find({email})
+            if(userExist){
+                return res.status(401).json({error:"Ja existe um usuario com este email"})
+            }
+            const user = await User.create({nome, email, cargo})
+            return res.status(201).json({user})
         } catch(error){
             console.log(error)
-            res.json({msg:'Problemas no servidor'})
+            return res.status(500).json({msg:'Problemas no servidor'})
         }
     },
 
+    //UPDATE ONE USER ON THE LIST
     async update (req,res) {
         try{
-            const {nome, cidade, idade} = req.body
+            const {nome, email, cargo} = req.body
             const {userId} = req.params
+            const userExist = await User.findById({_id: userId})
+            if(!userExist){
+                return res.status(401).json({error:"Nao é possivel atualizar um usuario nao cadastrado"})
+            }
             const user = await User.findByIdAndUpdate({
                 _id: userId
             },{
                 nome,
-                cidade,
-                idade
+                email,
+                cargo
             },{
                 new: true
             })
-            res.json({user})
+            return res.status(200).json({user})
         } catch(error){
             console.log(error)
-            res.json({msg:'Problemas no servidor'})
+            return res.status(500).json({msg:'Problemas no servidor'})
         }
     },
+
+    //DELETE ONE USER ON THE LIST
     async delete (req,res) {
         try{
             const {userId} = req.params
             const user = await User.findByIdAndDelete({_id: userId})
-            console.log(user)
-            res.json({user})
+            const userExist = await User.findById({_id: userId})
+            if(!userExist){
+                return res.status(401).json({error:"Nao é possivel deletar um usuario nao cadastrado"})
+            }
+            return res.json({user})
         } catch(error){
             console.log(error)
-            res.json({msg:'Problemas no servidor'})
+            return res.status(500).json({msg:'Problemas no servidor'})
         }
     }
 }
